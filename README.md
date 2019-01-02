@@ -25,18 +25,34 @@ We need to use another image variation: `jekyll/jekyll:builder`
 
 Clone loopback.io inside the container:
 ```
-$ mkdir ~/loopback
-$ cd ~/loopback
-$ docker run -it -p 4001:4001 -v $PWD:/srv/jekyll --name loopback jekyll/jekyll:builder bash
+$ docker run -it -p 4000:4000 -v $PWD:/srv/jekyll --name loopback jekyll/jekyll:builder bash
 
 $ git clone https://github.com/therobotacademy/loopback.io
 $ chown -R jekyll:jekyll loopback.io
 $ cd loopback.io
 $ bundle install
 $ npm start
+(to run in another port) $ bundle exec jekyll serve --incremental --port 4000 # This is script 'start'
 ```
 Visit: `http://localhost:4001`
 
+NOTE: The docs part will be at [http://localhost:4001/doc](http://localhost:4001/doc). It's not yet linked from the main "overview" part of the site, but will be once we launch (RSN).
+
+To run in another port:
+```
+$ bundle exec jekyll serve --incremental --port 4000 # This is script 'start'
+```
+
+!!! NOT RESPONDING
+
+For running if the container is stopped:
+
+```
+$ docker start loopback
+$ docker exec -it loopback bash
+> cd loopback.io
+> npm start
+```
 # Official Loopback.io instructions from here
 ## Setup
 
