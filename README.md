@@ -6,6 +6,38 @@ NOTE: The website is served from the `gh-pages` branch.
 
 This repository is provided under the [MIT License](LICENSE).
 
+# Jekyll installation
+https://kristofclaes.github.io/2016/06/19/running-jekyll-locally-with-docker/
+
+This post uses docker-compose, but as we are running a single container we really do not need it.
+We will use the image: `jekyll/jekyll:pages`
+```
+$ mkdir ~/jekyll
+$ cd ~/jekyll
+$ docker pull jekyll/jekyll:pages
+$ docker run -it --restart unless-stopped -p 4000:4000 -v $PWD:/srv/jekyll --name jekyll jekyll/jekyll:pages jekyll serve --watch --incremental
+```
+This opens a bare jekyll site at port 4000. Visit: `http://localhost:4000`
+
+# Building and running `loopback.io`
+
+We need to use another image variation: `jekyll/jekyll:builder`
+
+Clone loopback.io inside the container:
+```
+$ mkdir ~/loopback
+$ cd ~/loopback
+$ docker run -it -p 4001:4001 -v $PWD:/srv/jekyll --name loopback jekyll/jekyll:builder bash
+
+$ git clone https://github.com/therobotacademy/loopback.io
+$ chown -R jekyll:jekyll loopback.io
+$ cd loopback.io
+$ bundle install
+$ npm start
+```
+Visit: `http://localhost:4001`
+
+# Official Loopback.io instructions from here
 ## Setup
 
 To preview the website locally:
